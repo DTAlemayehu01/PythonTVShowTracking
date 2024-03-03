@@ -17,6 +17,7 @@ class season:
         self.episodes = episodes
 
 class episode:
-    def __init__(self, Title=None, Time=None):
-        self.Title=title
+    def __init__(self, Title=None, Index=None, Time=None):
+        self.Title=Title
+        self.Index=Index
         self.Time=Time

@@ -22,6 +22,13 @@ def displayMenu():
     print("6. Exit")
     print("-----------------")
 
+def displaySearchOptions():
+    print("Select a search option")
+    print("----------------------")
+    print("1. Display Full TVShow List A-Z")
+    print("2. Display Seasons and Episodes of a TV Show")
+    print("----------------------")
+
 try:
     Inital_Object = open("UserInfo.txt","r+")
 except IOError:
@@ -31,17 +38,19 @@ except IOError:
 # while True:
 
 while True:
-    displayMenu();
+    displayMenu()
     option = input("=> ")
     match option:
         case '1':
             existingUser = input("Enter an existing user: ")
             oldUser = currentUser
+            y = 0
             for theUser in users:
                 if theUser.username == existingUser:
-                    currentUser = theUser
-                    print("Logged into " + currentUser.username)
+                    currentUser = y
+                    print("Logged into " + users[currentUser].username)
                     break
+                y += 1
             if currentUser is None or currentUser == oldUser:
                 print("User not found!")
         case '2':
@@ -65,19 +74,38 @@ while True:
                         break
                     case default:
                         print("Please Enter 'y' or 'n'")
-            genre = input("Enter the TV Show's genre")
-            currentUser.tvShowsList.append(userobjects.tvShow(ShowName, ShowWatched, genre, []))
+            genre = input("Enter the TV Show's genre: ")
+            users[currentUser].tvShowsList.append(userobjects.tvShow(ShowName, ShowWatched, genre, []))
         case '4':
             if listfunctions.userNotLoggedIn(currentUser):
                 continue
             ShowName = input("Enter the tracked TV show's Name: ")
-            if listfunctions.showExists(currentUser.tvShowsList, ShowName):
-                updateShow(ShowName)
+            ShowName = listfunctions.showSearch(users[currentUser].tvShowsList, ShowName)
+            if ShowName is not None:
+                listfunctions.updateShow(users[currentUser].tvShowsList[ShowName])
+            else:
+                print("TV Show Not Found")
         case '5':
             if listfunctions.userNotLoggedIn(currentUser):
                 continue
-            print("H")
+            displaySearchOptions()
+            SearchOption = input("=> ")
+            match SearchOption:
+                case '1':
+                    print(users[currentUser].username + "'s tracked TV Shows")
+                    users[currentUser].tvShowsList.sort(key=lambda x: x.tvShowName)
+                    listfunctions.displayList(users[currentUser].tvShowsList)
+                case '2':
+                    currentUserTVShow = input("Enter The TV Show to Display Info For: ")
+                    currentUserTVShow = listfunctions.showSearch(users[currentUser].tvShowsList, currentUserTVShow)
+                    if currentUserTVShow is not None:
+                        listfunctions.displayShowInfo(users[currentUser].tvShowsList[currentUserTVShow])
+                    else:
+                        print("TV Show not found")
+                case default:
+                    print("Not a valid option!")
         case '6':
+            listfunctions.writeToFile(users, Inital_Object)
             break
         case default:
             print("Enter a number (1-6)")
