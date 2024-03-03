@@ -32,9 +32,9 @@ def displaySearchOptions():
 try:
     Inital_Object = open("UserInfo.txt","r+")
 except IOError:
-    Inital_Object = open("UserInfo.txt","a")
+    Inital_Object = open("UserInfo.txt","w")
 else:
-    read
+    listfunctions.readFileToStructs(users, Inital_Object)
 
 # file loop parser
 # while True:
