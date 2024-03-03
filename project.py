@@ -33,6 +33,8 @@ try:
     Inital_Object = open("UserInfo.txt","r+")
 except IOError:
     Inital_Object = open("UserInfo.txt","a")
+else:
+    read
 
 # file loop parser
 # while True:
@@ -56,7 +58,7 @@ while True:
         case '2':
             newUser = input("Enter a new user: ")
             if not listfunctions.userExists(users, newUser):
-                users.append(userobjects.user(newUser))
+                users.append(userobjects.user(newUser, []))
             else:
                 print("User Exists!")
         case '3':

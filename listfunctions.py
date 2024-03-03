@@ -60,7 +60,7 @@ def updateShow(tvName):
             else:
                 if len(tvName.seasons) < whichSeason:
                     for i in range(whichSeason):
-                        tvName.seasons.append(userobjects.season())
+                        tvName.seasons.append(userobjects.season([]))
                 tvName.seasons[whichSeason-1].episodes.append(userobjects.episode(newEpisodeTitle, len(tvName.seasons[whichSeason-1].episodes) , newEpisodeRuntime))
         case default:
             print("Not a valid option")
